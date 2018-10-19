@@ -41,10 +41,14 @@ public class FindInsertPosition {
     }
 }
 /*
-   insert 19
-  [1, 4] =>
-  l   r
-  m
+   test case1:
+   int cert 19
+    [1, 4] =>
+     l   r
+     m
 
+   test case 2:
+    [1,2] insert 19
+        ß
 
  */
