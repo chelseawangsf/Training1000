@@ -4,64 +4,69 @@ package binarysearch;
  * Created by omega on 10/19/18.
  * no duplciate
  */
-public class SearchTargetInBitonicArray {
-
-    /**
-     * tc1: null
-     * tc2: []
-     * tc3: [1,9,78, 56, 23, 12]  find 23
-     * @param array
-     * @param target
-     * @return
-     */
-    public int searchTarget(int[] array, int target) {
-        if (array == null || array.length == 0) {
-            return -1;
-        }
-
-        int left = 0;
-        int right = array.length - 1;
-        // step 1:find peak element
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (array[mid] > array[mid + 1]){
-                right = mid;
-            } else {
-                left = mid + 1;
-            }
-        }
-        int peak = left;
-        int leftResult = binarySearch(array, 0, peak, target);
-        int rightResult = binarySearch(array, peak+ 1, array.length - 1, target);
-        if (leftResult != -1) {
-            return leftResult;
-        } else if (rightResult != -1) {
-            return rightResult;
-        }
-        return -1;
+public class Solution {
+  public int search(int[] array, int target) {
+    // Write your solution here.
+    // step 1: find maximum element
+    // step 2: do 2 binary search in increasing part and decreasing part
+    if (array == null || array.length == 0) {
+      return -1;
     }
-
-    public int binarySearch(int[] array, int left, int right, int target) {
-        if (array == null || array.length == 0) {
-            return -1;
-        }
-
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            if (array[mid] == target) {
-                return mid;
-            } else if (array[mid] > target) {
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
-        }
-        return -1;
+    int left = 0;
+    int right = array.length - 1;
+    int maxIdx = searchMax(array);  
+    // return maximum element's index
+    int leftResult = ascendSearch(array, 0, maxIdx, target);
+    int rightResult = desecendSearch(array, maxIdx + 1, right, target);
+    if (leftResult != -1) {
+      return leftResult;
     }
-
-    public static void main(String[] args) {
-        int[] tc1 =  new int[]{1,9,78, 56, 23, 12};
-        SearchTargetInBitonicArray test = new SearchTargetInBitonicArray();
-        System.out.println(test.searchTarget(tc1, 78));
+    if (rightResult != -1) {
+      return rightResult;
     }
+    return -1;
+  }
+  
+  public int ascendSearch(int[] array, int left, int right, int target) {
+   while (left <= right) {
+     int mid = left + (right - left) / 2;
+     if (array[mid] == target) {
+       return mid;
+     } else if (array[mid] < target) {
+       left = mid + 1;
+     } else {
+       right = mid - 1;
+     }
+   }
+    return -1;
+  }
+  
+    public int desecendSearch(int[] array, int left, int right, int target) {
+   while (left <= right) {
+     int mid = left + (right - left) / 2;
+     if (array[mid] == target) {
+       return mid;
+     } else if (array[mid] < target) {
+       right = mid - 1;
+     } else {
+      left = mid + 1;
+     }
+   }
+    return -1;
+  }
+  
+  
+  public int searchMax(int[] array) {
+    int left = 0;
+    int right = array.length -  1;
+    while (left < right) {
+      int mid = left + (right - left) / 2;
+      if (array[mid] < array[mid + 1]) {
+         left = mid + 1;
+      } else {
+        right = mid;
+      }
+    }
+    return left;
+  }
 }
