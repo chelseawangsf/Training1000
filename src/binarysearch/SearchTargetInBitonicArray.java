@@ -4,7 +4,7 @@ package binarysearch;
  * Created by omega on 10/19/18.
  * no duplciate
  */
-public class Solution {
+public class SearchTargetInBitonicArray {
   public int search(int[] array, int target) {
     // Write your solution here.
     // step 1: find maximum element
